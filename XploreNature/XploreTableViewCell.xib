@@ -22,64 +22,60 @@
                         <rect key="frame" x="10" y="10" width="436" height="513"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fXX-gb-y8k">
-                                <rect key="frame" x="0.0" y="0.0" width="436" height="21.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="436" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6wp-Tg-dEi">
-                                <rect key="frame" x="0.0" y="23.5" width="436" height="22"/>
+                                <rect key="frame" x="0.0" y="22" width="436" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3t7-ER-bZ8">
-                                <rect key="frame" x="0.0" y="47.5" width="436" height="19"/>
+                                <rect key="frame" x="0.0" y="44" width="436" height="17.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" name="gray_text"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FMM-jZ-5lm">
-                                <rect key="frame" x="0.0" y="68.5" width="436" height="254"/>
+                                <rect key="frame" x="0.0" y="63.5" width="436" height="234.5"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Place description:" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="obZ-U5-7re">
-                                <rect key="frame" x="0.0" y="324.5" width="436" height="114.5"/>
+                                <rect key="frame" x="0.0" y="300" width="436" height="105.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dq2-8T-AhL">
-                                <rect key="frame" x="0.0" y="441" width="436" height="72"/>
+                                <rect key="frame" x="0.0" y="407.5" width="436" height="105.5"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Arrival instructions:" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ueY-q0-2lT">
-                                        <rect key="frame" x="0.0" y="0.0" width="341" height="72"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="336" height="105.5"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LO8-0r-kcd" customClass="CustomButton" customModule="XploreNature" customModuleProvider="target">
-                                        <rect key="frame" x="341" y="37" width="90" height="30"/>
+                                        <rect key="frame" x="336" y="0.0" width="100" height="105.5"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="90" id="EvI-rc-KOO"/>
+                                            <constraint firstAttribute="width" constant="100" id="2Re-xK-Y2n"/>
                                         </constraints>
-                                        <state key="normal" title="View xplore"/>
+                                        <state key="normal" title="View full post"/>
                                         <connections>
                                             <action selector="viewXplore:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Jfu-u3-xGv"/>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="LO8-0r-kcd" firstAttribute="top" secondItem="Dq2-8T-AhL" secondAttribute="top" constant="5" id="Eau-Dd-XSp"/>
-                                    <constraint firstAttribute="bottom" secondItem="LO8-0r-kcd" secondAttribute="bottom" constant="5" id="NWS-E1-Niy"/>
-                                    <constraint firstAttribute="trailing" secondItem="LO8-0r-kcd" secondAttribute="trailing" constant="5" id="dDB-2V-WO2"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="obZ-U5-7re" firstAttribute="height" secondItem="FMM-jZ-5lm" secondAttribute="height" multiplier="0.45" id="Bcw-jb-ujq"/>
                             <constraint firstItem="fXX-gb-y8k" firstAttribute="height" secondItem="6wp-Tg-dEi" secondAttribute="height" id="HEt-WR-13v"/>
+                            <constraint firstItem="Dq2-8T-AhL" firstAttribute="height" secondItem="obZ-U5-7re" secondAttribute="height" id="OHM-lu-jx6"/>
                             <constraint firstItem="3t7-ER-bZ8" firstAttribute="height" secondItem="FMM-jZ-5lm" secondAttribute="height" multiplier="0.075" id="XkH-dw-jWv"/>
                             <constraint firstItem="6wp-Tg-dEi" firstAttribute="height" secondItem="3t7-ER-bZ8" secondAttribute="height" multiplier="1.13889" id="pMX-6A-0GL"/>
                         </constraints>

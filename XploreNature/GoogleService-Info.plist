@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow location updates in app</string>
+	<key>CLIENT_ID</key>
+	<string>211603274946-r3nfoofkl1ppfdhmbp1r15g5asgfpgnc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.211603274946-r3nfoofkl1ppfdhmbp1r15g5asgfpgnc</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCdqxeCpvuPiiJZESZQiVdc11h_rl-Drg0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>211603274946</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>Danielhay.XploreNature</string>
+	<key>PROJECT_ID</key>
+	<string>xplorenature-dc42b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>xplorenature-dc42b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:211603274946:ios:f433d6c1b4d7aa9984cf5b</string>
+	<key>DATABASE_URL</key>
+	<string>https://xplorenature-dc42b-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>

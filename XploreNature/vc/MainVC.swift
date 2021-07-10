@@ -36,7 +36,7 @@ class MainVC: UIViewController {
     
     func loadUser() -> User? {
         let preference = myPreference()
-        return preference.decodeUser()
+        return preference.decodeUserFromPreference()
     }
     
     func loadDataFromFB() -> [Xplore] {
