@@ -15,7 +15,6 @@ import Foundation
 
 import UIKit
 import CoreLocation
-import Firebase
 class MainVC: UIViewController {
     
     @IBOutlet weak var main_SC_type: UISegmentedControl!
@@ -23,12 +22,14 @@ class MainVC: UIViewController {
     
     var data: [Xplore] = []
     var user = User()
-    var locationManager: CLLocationManager!
+    var locationManager: CLLocationManager = CLLocationManager()
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        
+        self.locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.requestLocation()
+        }
         self.data = loadDataFromFB()
         displayData(data: self.data, user: user)
         // Do any additional setup after loading the view.
@@ -46,6 +47,10 @@ class MainVC: UIViewController {
                                 , desc: "description", ArrivalInstructions: "Arrival description", lat: 0, lon: 0)
             xploreList.append(xplore)
         }
+        
+        // load all xplores
+        // for each explore download image
+        // use UIIMAGEVIEW extention to download image from url
         return xploreList
     }
     
@@ -140,7 +145,7 @@ extension MainVC: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("Location readed.")
+        print("\nLocation readed.")
         if let lastLocation = locations.last {
             locationManager.stopUpdatingLocation()
             let lat = lastLocation.coordinate.latitude

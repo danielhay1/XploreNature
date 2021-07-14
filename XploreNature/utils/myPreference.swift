@@ -32,7 +32,7 @@ class myPreference {
     // MARK: Encode functions
     func encodeUser(user: User) -> String{
         let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
+        encoder.outputFormatting = .withoutEscapingSlashes
         let data = try! encoder.encode(user)
         return String(data: data, encoding: .utf8)!
     }
@@ -41,15 +41,19 @@ class myPreference {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         let data = try! encoder.encode(xplore)
-        //let xploreJson = ["name":xplore.name,
-        //                  "date":xplore.date,
-        //                 "img":xplore.img,
-        //                  "type":xplore.type,
-        //                  "description":xplore.desc,
-        //                  "ArrivalInstructions":xplore.ArrivalInstructions,
-        //                  "latitude":xplore.lat,
-        //                  "longitude":xplore.lon] as [String : Any]
+        print(String(data: data, encoding: .utf8)!)
         return String(data: data, encoding: .utf8)!
+    }
+    
+    func convertToDictionary(json: String) -> [String: Any]? {
+        if let data = json.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
     }
     
     // MARK: Decode functions

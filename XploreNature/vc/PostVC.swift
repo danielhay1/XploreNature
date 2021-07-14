@@ -8,17 +8,20 @@
 import UIKit
 import MobileCoreServices
 import FirebaseStorage
-class PostVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+class PostVC: UIViewController, UINavigationControllerDelegate {
     
     @IBOutlet weak var post_TF_name: UITextField!
     @IBOutlet weak var post_SC_type: UISegmentedControl!
     @IBOutlet weak var post_TF_description: UITextField!
     @IBOutlet weak var post_TF_arrivalInstructions: UITextField!
+
+    @IBOutlet weak var post_IMG_xploreImg: UIImageView!
     var lat : Double = 0.0
     var lon : Double = 0.0
     var xplore_type = XPLORE_TYPE.nature_trip
     let firebase = MyFirebaseServies()
     let preference = myPreference()
+    var imgUrl: URL?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.lat = preference.loadPostLocationFromPreference().0 ?? 0.0
@@ -32,9 +35,12 @@ class PostVC: UIViewController, UIImagePickerControllerDelegate & UINavigationCo
         let name = post_TF_name.text
         let description = post_TF_description.text
         let arrivalInstructions = post_TF_arrivalInstructions.text
-        let img = "Xplore.png"
-        //let xplore = Xplore(name: name, type: self.xplore_type.rawValue, img: img,desc: description,ArrivalInstructions: arrivalInstructions,lat: lat, lon: lon)            // Create Xplore object
-        let xplore = Xplore(name: "daniel", type: 0, img: "pic.png", desc: "go", ArrivalInstructions: "go", lat: lat, lon: lon)
+        //let strImg = "\(String(describing: self.imgUrl?.lastPathComponent ?? ""))"
+        let xplore = Xplore(name: name, type: self.xplore_type.rawValue, img: "\(String(describing: imgUrl!))"  , desc: description,ArrivalInstructions: arrivalInstructions,lat: lat, lon: lon)            // Create Xplore object
+        //let xplore = Xplore(name: "daniel", type: 0, img: "pic.png", desc: "go", ArrivalInstructions: "go", lat: lat, lon: lon)
+        if let url = self.imgUrl {
+            firebase.uploadImage(localFile: url)
+        }
         firebase.saveXploreToFirebase(xplore: xplore)   // Convert object to json and save it to firebase
 
         switchToMainVC()
@@ -75,23 +81,37 @@ class PostVC: UIViewController, UIImagePickerControllerDelegate & UINavigationCo
     }
     
     @IBAction func addImg(_ sender: Any) {
-        
-        //picker.delegate = self
-        //picker.allowsEditing = true
-        //present(picker, animated: true)
-        self.storage()
+        self.init_picker()
     }
     
-    func storage() {
+    func init_picker() {
         let imgType = kUTTypeImage as String
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
         picker.mediaTypes = [imgType]
+        picker.allowsEditing = true
         picker.delegate = self
+        present(picker, animated: true)
     }
     
     @IBAction func locationBtnClick(_ sender: Any) {
         switchToChooseLocationVc()
+    }
+}
+
+extension PostVC: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any])
+    {
+        if let url = info[UIImagePickerController.InfoKey.imageURL] as? URL{
+            print("Local url:\(url)")
+            self.imgUrl = url
+            self.post_IMG_xploreImg.downloaded(from: url)
+        }
+        picker.dismiss(animated: true,completion: nil)
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import UIKit
 extension Date {
     func currentTimeMillis() -> Int64 {
         return Int64(self.timeIntervalSince1970)
@@ -62,5 +62,21 @@ extension String {
         let startIndex = index(from: r.lowerBound)
         let endIndex = index(from: r.upperBound)
         return String(self[startIndex..<endIndex])
+    }
+}
+
+extension UIImageView {
+    func downloaded(from url: URL) {
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+                DispatchQueue.main.async { /// execute on main thread
+                    self.image = UIImage(data: data)
+                }
+            }
+        task.resume()
+    }
+    func downloaded(from link: String) {
+        guard let url = URL(string: link) else { return }
+        downloaded(from: url)
     }
 }
