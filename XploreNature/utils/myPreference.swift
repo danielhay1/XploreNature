@@ -9,25 +9,44 @@ import Foundation
 class myPreference {
     public let CURRENT_USER = "current_user"
     public let XPLORE_KEY_PREFIX = "xplore_"
-    public let POST_LOCATION_LATITUDE = "post_location_latitude"
-    public let POST_LOCATION_LONGITUDE = "post_location_longitude"
-    public let XPLORE_COUNTER = "xplore_counter"
+    private let POST_LOCATION_LATITUDE = "post_location_latitude"
+    private let POST_LOCATION_LONGITUDE = "post_location_longitude"
+    private let POST_IMAGE = "post_image"
+    
     // MARK: Post location fucntions:
     func savePostLocationToPreference(lat: Double, lon: Double) {
         UserDefaults.standard.setValue(lat, forKey: POST_LOCATION_LATITUDE)
         UserDefaults.standard.setValue(lon, forKey: POST_LOCATION_LONGITUDE)
-
     }
     
     func loadPostLocationFromPreference()-> (Double?, Double?) {
         let lat = UserDefaults.standard.double(forKey: POST_LOCATION_LATITUDE)
         let lon = UserDefaults.standard.double(forKey: POST_LOCATION_LONGITUDE)
-        return (lat,lon)
+        if(lat != 0.0) || (lon != 0.0) {
+            return (lat,lon)
+        }
+        return (nil,nil)
     }
-    
+
     func removePostLocationFromPreference() {
         UserDefaults.standard.removeObject(forKey: POST_LOCATION_LATITUDE)
         UserDefaults.standard.removeObject(forKey: POST_LOCATION_LONGITUDE)
+    }
+    // MARK: Post image fucntions:
+    func savePostImageToPreference(img: String) {
+        UserDefaults.standard.setValue(img, forKey: POST_IMAGE)
+    }
+    
+    func loadPostImageFromPreference()-> String? {
+        if let img = UserDefaults.standard.string(forKey: POST_IMAGE) {
+            return img
+        } else {
+            return nil
+        }
+    }
+    
+    func removePostImageFromPreference() {
+        UserDefaults.standard.removeObject(forKey: POST_IMAGE)
     }
     // MARK: Encode functions
     func encodeUser(user: User) -> String{
@@ -55,9 +74,7 @@ class myPreference {
         }
         return nil
     }
-    
-    // MARK: Decode functions
-    
+        
     /*
      
      */
@@ -66,21 +83,40 @@ class myPreference {
         UserDefaults.standard.setValue(jsonUser, forKey: CURRENT_USER)
     }
     
+    // MARK: Decode functions
+    func dictionaryToXplore(dictXplore:[String: Any]?) ->Xplore? {
+        var xplore : Xplore?
+        if let safeDictXplore = dictXplore {
+            var jsonXplore : String = "{\n"
+            for tup in safeDictXplore {
+                var value = tup.value
+                if value is String {
+                    value = "\"\(tup.value)\""
+                }
+                jsonXplore += String("  \"\(tup.key)\" : \(value),\n")
+            }
+            jsonXplore = jsonXplore.substring(to: jsonXplore.count-2)
+            jsonXplore+="\n}"
+            //print("Value=\n\(jsonXplore)")
+            xplore = self.decodeXplore(jsonXplore: jsonXplore)
+        }
+        return xplore
+    }
+    
     func decodeUserFromPreference () -> User? {
         if let safeJsonPlayer = UserDefaults.standard.string(forKey: CURRENT_USER)  {
             let decoder = JSONDecoder()
             let data = Data(safeJsonPlayer.utf8)
             do {
                 let user = try decoder.decode(User.self, from: data)
-                //print("decodePlayer: \(user.description)")
                 return user
             } catch{}
         }
         return nil
     }
     
-    func decodeXplore(jsonUser: String?)->Xplore? {
-        if let safeJsonPlayer = jsonUser {
+    func decodeXplore(jsonXplore: String?)->Xplore? {
+        if let safeJsonPlayer = jsonXplore {
             let decoder = JSONDecoder()
             let data = Data(safeJsonPlayer.utf8)
             do {

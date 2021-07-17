@@ -10,9 +10,13 @@ import Firebase
 import FirebaseStorage
 import UIKit
 
+protocol MyFireBaseDelegate {
+    func dataIsReady(xplores: [Xplore])
+}
 
 class MyFirebaseServies {
     let preference = myPreference()
+    var delegate : MyFireBaseDelegate?
     // Firebase references
     let ref: DatabaseReference = Database.database().reference(fromURL: "https://xplorenature-dc42b-default-rtdb.europe-west1.firebasedatabase.app")
     let storageRef = Storage.storage().reference()
@@ -23,23 +27,55 @@ class MyFirebaseServies {
     
     // MARK: Firebase database services
     func saveXploreToFirebase(xplore: Xplore) {
+        //print("ENCODE VALUE: \(preference.encodeXplore(xplore: xplore))")
+        
         let jsonXplore = preference.convertToDictionary(json: preference.encodeXplore(xplore: xplore))
         let key = "\(preference.XPLORE_KEY_PREFIX)\(xplore.id)"
         self.ref.child(XPOLRE_TITLE).child(key).setValue(jsonXplore)
     }
     
-    func loadXploreFromFirebase(xploreId: Int)->Xplore? {
+    func loadXploreFromFirebase(xploreKey: String)->Xplore? {
+        //BUG!
         var xplore: Xplore?
-        let key = "\(preference.XPLORE_KEY_PREFIX)\(xploreId)"
-        self.ref.child(XPOLRE_TITLE).observeSingleEvent(of: .value, with: { snapshot in
+        //let key = "\(preference.XPLORE_KEY_PREFIX)\(xploreId)"
+        self.ref.child(XPOLRE_TITLE).child(xploreKey).observeSingleEvent(of: .value, with: { snapshot in
             // Get user value
-            let value = snapshot.value as? NSDictionary
-            let jsonXplore = value?[key] as? String
-            xplore = self.preference.decodeXplore(jsonUser: jsonXplore)!
-        }) { error in
-            print(error.localizedDescription)
-        }
+            
+            guard let value = snapshot.value as? String else {
+                
+                return
+            }
+            print("snapshot value: \(value)")
+            xplore = self.preference.decodeXplore(jsonXplore: value)
+
+        })
         return xplore
+    }
+    
+    func loadAllXploresFromFirebase() {
+        print("loadAllXploresFromFirebase:")
+        var xplores : [Xplore] = []
+        let parentRef = ref.child(XPOLRE_TITLE)
+        parentRef.observeSingleEvent(of: .value, with: { snapshot in
+            guard let value = snapshot.value as? [String: [String:Any]] else {
+                return
+            }
+            print("{")
+            // DATA WAS FOUND
+            for (key, val) in value {
+                if let xplore = self.preference.dictionaryToXplore(dictXplore: val) {
+                    print("\t\(key) : \(xplore.description)")
+                    xplores.append(xplore)
+                    self.downloadImage(strUrl: xplore.img)
+                }
+            }
+            print("}")
+            self.delegate?.dataIsReady(xplores: xplores)
+        })
+    }
+    
+    func name(xploreList: [Xplore],type: Int) {
+        
     }
     
     func deleteXploreFromFirebase(xploreId: Int)->Bool {

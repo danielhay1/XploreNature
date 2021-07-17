@@ -33,17 +33,17 @@ class Xplore : Codable{
     init(name: String?, type: Int?, img: String?, desc: String? , ArrivalInstructions: String?, lat: Double?, lon: Double?) {
         self.id = xplore_counter
         self.name = name ?? "NA"
+        self.date = Date().getTodayString()
         self.type = type ?? 0
         self.img = img ?? "NA"
         self.desc = desc ?? "NA"
         self.ArrivalInstructions = ArrivalInstructions ?? "NA"
-        self.date = Date().getTodayString()
         self.setLocation(lat: lat,lon: lon)
         xplore_counter += 1
     }
     
-    func getXploreType() -> XPLORE_TYPE! {
-        return XPLORE_TYPE(rawValue: XPLORE_TYPE.RawValue(self.type))
+    func getXploreType() -> XPLORE_TYPE {
+        return XPLORE_TYPE(rawValue: XPLORE_TYPE.RawValue(self.type)) ?? XPLORE_TYPE.nature_trip
     }
     
     func setLocation(lat : Double?, lon : Double?) {
@@ -68,8 +68,8 @@ class Xplore : Codable{
     
     
     public var description: String {
-        return "\(String(describing: getXploreType())):{\nname: \(String(describing: name))\ndate: \(self.date)\nimg: \(String(describing: img)), location:[\(printLocation())]"
-        //return "name: \(String(describing: name)), date: \(self.date), img: \(String(describing: img)), type: \(String(describing: type)), description: \(desc), ArrivalInstructions: \(ArrivalInstructions), latitude: \(lat), longitude: \(lon)"
+        //return "Xplore_\(id):\nname: \(String(describing: name)),\ndate: \(self.date),\ntype:\(String(describing: getXploreType())),\nimg: \(String(describing: img)),\ndescription: \nlocation:[\(printLocation())]\n}"
+        return "name: \(String(describing: name)), date: \(self.date), img: \(String(describing: img)), type: \(String(describing: type)), description: \(desc), ArrivalInstructions: \(ArrivalInstructions), latitude: \(lat), longitude: \(lon)"
     }
     
     func calcDistance(user: User, xplore: Xplore) -> Double {

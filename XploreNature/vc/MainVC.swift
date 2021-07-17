@@ -23,15 +23,16 @@ class MainVC: UIViewController {
     var data: [Xplore] = []
     var user = User()
     var locationManager: CLLocationManager = CLLocationManager()
+    let firebase = MyFirebaseServies()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.firebase.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.requestLocation()
         }
-        self.data = loadDataFromFB()
-        displayData(data: self.data, user: user)
         // Do any additional setup after loading the view.
     }
     
@@ -40,18 +41,14 @@ class MainVC: UIViewController {
         return preference.decodeUserFromPreference()
     }
     
-    func loadDataFromFB() -> [Xplore] {
-        var xploreList : [Xplore] = []
-        for _ in 0...3 {
-            let xplore = Xplore(name: "Title", type: 0, img: "xplore.png"
-                                , desc: "description", ArrivalInstructions: "Arrival description", lat: 0, lon: 0)
-            xploreList.append(xplore)
-        }
+    func initXploreListView() {
+        self.firebase.loadAllXploresFromFirebase()   // load all xplores from firebase
+        //for _ in 0...3 {
+        //    let xplore = Xplore(name: "Title", type: 0, img: "xplore.png"
+        //                       , desc: "description", ArrivalInstructions: "Arrival description", lat: 0, lon: 0)
+        //    xploreList.append(xplore)
+        //}
         
-        // load all xplores
-        // for each explore download image
-        // use UIIMAGEVIEW extention to download image from url
-        return xploreList
     }
     
     func setUserLocation() {
@@ -82,11 +79,12 @@ class MainVC: UIViewController {
     }
     
     func displayData(data: [Xplore],user: User) {
-        let data = data.sorted(by: {$0.calcDistance(user: user, xplore: $0) > $1.calcDistance(user: user, xplore: $1)}) // Sort data by distance from user
         //update tablview data
-        main_TV_xplorePosts.dataSource = self
-        main_TV_xplorePosts.register(UINib(nibName: "XploreTableViewCell", bundle: nil), forCellReuseIdentifier: "xplorePostsCell")
-        main_TV_xplorePosts.reloadData()
+        self.main_TV_xplorePosts.dataSource = self
+        self.main_TV_xplorePosts.register(UINib(nibName: "XploreTableViewCell", bundle: nil), forCellReuseIdentifier: "xplorePostsCell")
+        DispatchQueue.main.async{
+            self.main_TV_xplorePosts.reloadData()
+        }
     }
     
     
@@ -122,18 +120,21 @@ class MainVC: UIViewController {
 
 extension MainVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        data.count
+        print(self.data.count)
+        return self.data.count
     }
-      
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
-        let cell = tableView.dequeueReusableCell(withIdentifier: "XploreTableViewCell", for: indexPath) as! XploreTableViewCell
-        cell.cell_LBL_name.text = data[indexPath.row].name
-        cell.cell_LBL_type.text = "Type: \(String(describing: data[indexPath.row].getXploreType()))"
-        cell.cell_LBL_date.text = data[indexPath.row].date
-        cell.cell_LBL_img.image = UIImage(named: data[indexPath.row].img)
-        cell.cell_LBL_description.text = data[indexPath.row].desc
-        cell.cell_LBL_arrivalInstructions.text = data[indexPath.row].ArrivalInstructions
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("UPDATING TABLEVIEW")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "xplorePostsCell", for: indexPath) as! XploreTableViewCell
+        cell.actionDelegate = self
+        cell.cell_LBL_name.text = self.data[indexPath.row].name
+        cell.cell_LBL_type.text = "Type: \(String(describing: self.data[indexPath.row].getXploreType()))"
+        cell.cell_LBL_date.text = self.data[indexPath.row].date
+        cell.cell_LBL_img.image = UIImage(named: self.data[indexPath.row].img)
+        cell.cell_LBL_img.downloaded(from: self.data[indexPath.row].img)
+        cell.cell_LBL_description.text = self.data[indexPath.row].desc
+        cell.cell_LBL_arrivalInstructions.text = self.data[indexPath.row].ArrivalInstructions
         return cell
     }
 }
@@ -155,6 +156,8 @@ extension MainVC: CLLocationManagerDelegate {
             user.setLocation(lat: lat, lon: lon)
         }
         saveUser()
+        // load all xplores
+        initXploreListView()
     }
 }
 
@@ -165,5 +168,14 @@ extension MainVC: CellActionDelegate{
             return
         }
         present(vc, animated: true, completion: nil)
+    }
+}
+
+extension MainVC: MyFireBaseDelegate {    
+    func dataIsReady(xplores: [Xplore]) {
+        self.data = xplores
+        print("DATA: \(String(describing: self.data))")
+        //self.data = self.data.sorted(by: {$0.calcDistance(user: user, xplore: $0) > $1.calcDistance(user: user, xplore: $1)}) // Sort data by distance from user
+        self.displayData(data: self.data, user: self.user)
     }
 }

@@ -20,7 +20,6 @@ class XploreTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        actionDelegate = CellActionDelegate.self as! CellActionDelegate
         // Initialization code
     }
     

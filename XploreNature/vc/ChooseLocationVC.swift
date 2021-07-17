@@ -29,17 +29,14 @@ class ChooseLocationVC: UIViewController {
         if(marker != nil){
             let lat = marker!.coordinate.latitude
             let lon = marker!.coordinate.longitude
-            print("****************************lat=\(lat),lon=\(lon)**************************")
             preference.savePostLocationToPreference(lat: lat, lon: lon)
+            //change to PostVC
+            guard let vc = storyboard?.instantiateViewController(identifier: "Post") as? PostVC else {
+                print("failed to get vc from storyboard")
+                return
+            }
+            present(vc, animated: true, completion: nil)
         }
-
-         //save location on local memory
-        //change to PostVC
-        guard let vc = storyboard?.instantiateViewController(identifier: "Post") as? PostVC else {
-            print("failed to get vc from storyboard")
-            return
-        }
-        present(vc, animated: true, completion: nil)
     }
     
     func initializeTheLocationManager() {
@@ -74,8 +71,6 @@ extension ChooseLocationVC: MKMapViewDelegate {
 
    func mapView(_ mapView: MKMapView, didSelect view:   MKAnnotationView){
         print("didSelectAnnotationTapped")
-        
-        
    }
 }
 
