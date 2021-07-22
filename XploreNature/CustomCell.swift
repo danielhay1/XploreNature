@@ -1,34 +1,41 @@
 //
-//  XploreTableViewCell.swift
-//  Xplore nature
+//  TestCell.swift
+//  XploreNature
 //
-//  Created by user196210 on 6/26/21.
+//  Created by user196210 on 7/21/21.
 //
 
 import UIKit
 
-class XploreTableViewCell: UITableViewCell {
-    var actionDelegate: CellActionDelegate?
+public protocol CellActionDelegate{
+    func cellBtnTapped()
+}
+
+class CustomCell: UITableViewCell {
+    
+    var actionDelegate : CellActionDelegate?
     @IBOutlet weak var cell_LBL_name: UILabel!
     @IBOutlet weak var cell_LBL_type: UILabel!
     @IBOutlet weak var cell_LBL_date: UILabel!
-    @IBOutlet weak var cell_LBL_img: UIImageView!
-    @IBOutlet weak var cell_LBL_description: UITextView!
-    @IBOutlet weak var cell_LBL_arrivalInstructions: UITextView!
+    @IBOutlet weak var cell_IMG: UIImageView!
+    @IBOutlet weak var cell_LBL_description: UILabel!
+    @IBOutlet weak var cell_LBL_arrivalInstructions: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+
         // Configure the view for the selected state
     }
     
-    @IBAction func viewXplore(_ sender: Any) {
+    @IBAction func foo(_ sender: Any) {
+        print("foo")
         if let delegate = self.actionDelegate {
             delegate.cellBtnTapped()
-        }       
+        }
     }
 }

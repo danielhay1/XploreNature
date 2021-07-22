@@ -49,9 +49,10 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="Gfm-4j-0bz" firstAttribute="height" secondItem="hrm-fI-ifh" secondAttribute="height" multiplier="0.0438472" priority="1" id="CfE-zJ-Obx"/>
+                                    <constraint firstItem="hrm-fI-ifh" firstAttribute="leading" secondItem="msH-rI-Cmw" secondAttribute="leading" id="D2t-SI-2fd"/>
                                     <constraint firstItem="cHA-vl-Pqq" firstAttribute="height" secondItem="hrm-fI-ifh" secondAttribute="height" multiplier="0.0801068" id="Hpg-IG-l4D"/>
-                                    <constraint firstItem="cHA-vl-Pqq" firstAttribute="top" secondItem="hrm-fI-ifh" secondAttribute="bottom" id="pjG-O6-Woy"/>
                                     <constraint firstAttribute="trailing" secondItem="cHA-vl-Pqq" secondAttribute="trailing" constant="10" id="prY-x4-38a"/>
+                                    <constraint firstAttribute="trailing" secondItem="hrm-fI-ifh" secondAttribute="trailing" id="tCv-LU-kbC"/>
                                     <constraint firstItem="cHA-vl-Pqq" firstAttribute="leading" secondItem="msH-rI-Cmw" secondAttribute="leading" constant="10" id="uKC-9Q-6OP"/>
                                 </constraints>
                             </stackView>
@@ -201,7 +202,7 @@
                                                         <rect key="frame" x="0.0" y="24.5" width="384" height="32"/>
                                                         <segments>
                                                             <segment title="nature_trip"/>
-                                                            <segment title="Second"/>
+                                                            <segment title="park"/>
                                                             <segment title="wellspring"/>
                                                             <segment title="observation"/>
                                                         </segments>

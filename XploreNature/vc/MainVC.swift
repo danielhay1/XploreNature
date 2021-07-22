@@ -48,7 +48,6 @@ class MainVC: UIViewController {
         //                       , desc: "description", ArrivalInstructions: "Arrival description", lat: 0, lon: 0)
         //    xploreList.append(xplore)
         //}
-        
     }
     
     func setUserLocation() {
@@ -81,7 +80,7 @@ class MainVC: UIViewController {
     func displayData(data: [Xplore],user: User) {
         //update tablview data
         self.main_TV_xplorePosts.dataSource = self
-        self.main_TV_xplorePosts.register(UINib(nibName: "XploreTableViewCell", bundle: nil), forCellReuseIdentifier: "xplorePostsCell")
+        self.main_TV_xplorePosts.register(UINib(nibName: "xplorePostCell", bundle: nil), forCellReuseIdentifier: "xplorePostCell")
         DispatchQueue.main.async{
             self.main_TV_xplorePosts.reloadData()
         }
@@ -125,17 +124,35 @@ extension MainVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("UPDATING TABLEVIEW")
-        let cell = tableView.dequeueReusableCell(withIdentifier: "xplorePostsCell", for: indexPath) as! XploreTableViewCell
-        cell.actionDelegate = self
-        cell.cell_LBL_name.text = self.data[indexPath.row].name
+        print("UPDATING TABLEVIEW...,Index path = \(indexPath)")
+//        if let cell = main_TV_xplorePosts.dequeueReusableCell(withIdentifier: "xplorePostsCell", for: indexPath) as? XploreTableViewCell
+//        {
+//            cell.actionDelegate = self
+//            cell.cell_LBL_name.text = "Posted by: \(self.data[indexPath.row].name)"
+//            print(cell.cell_LBL_name.text)
+//            cell.cell_LBL_type.text = "Type: \(String(describing: self.data[indexPath.row].getXploreType()))"
+//            print(cell.cell_LBL_type.text)
+//            cell.cell_LBL_date.text = "\(self.data[indexPath.row].date)"
+//            print(cell.cell_LBL_date.text)
+//            cell.cell_LBL_img.downloaded(from: self.data[indexPath.row].img)
+//            cell.cell_LBL_description.text = "Description: \(self.data[indexPath.row].desc)"
+//            cell.cell_LBL_arrivalInstructions.text = "arrivalInstructions: \(self.data[indexPath.row].ArrivalInstructions)"
+//            print(cell)
+//            return cell
+//        } else {
+//            print("nil cell")
+//            return UITableViewCell()
+//        }
+        let cell = main_TV_xplorePosts.dequeueReusableCell(withIdentifier: "xplorePostCell", for: indexPath) as! xplorePostCell
+        cell.cell_LBL_name.text = "Posted by: \(self.data[indexPath.row].name)"
         cell.cell_LBL_type.text = "Type: \(String(describing: self.data[indexPath.row].getXploreType()))"
-        cell.cell_LBL_date.text = self.data[indexPath.row].date
-        cell.cell_LBL_img.image = UIImage(named: self.data[indexPath.row].img)
-        cell.cell_LBL_img.downloaded(from: self.data[indexPath.row].img)
-        cell.cell_LBL_description.text = self.data[indexPath.row].desc
-        cell.cell_LBL_arrivalInstructions.text = self.data[indexPath.row].ArrivalInstructions
+        cell.cell_LBL_date.text = "\(self.data[indexPath.row].date)"
+        cell.cell_IMG.downloaded(from: self.data[indexPath.row].img)
+        cell.actionDelegate = self
+        cell.cell_LBL_description.text = "Description: \(self.data[indexPath.row].desc)"
+        cell.cell_LBL_arrivalInstructions.text = "arrivalInstructions: \(self.data[indexPath.row].ArrivalInstructions)"
         return cell
+        
     }
 }
 
@@ -163,12 +180,12 @@ extension MainVC: CLLocationManagerDelegate {
 
 extension MainVC: CellActionDelegate{
     func cellBtnTapped() {
-        guard let vc = storyboard?.instantiateViewController(identifier: "Post") as? PostVC else {
+        guard let vc = storyboard?.instantiateViewController(identifier: "XploreVC") as? XploreVC else {
             print("failed to get vc from storyboard")
             return
         }
         present(vc, animated: true, completion: nil)
-    }
+    }  
 }
 
 extension MainVC: MyFireBaseDelegate {    
