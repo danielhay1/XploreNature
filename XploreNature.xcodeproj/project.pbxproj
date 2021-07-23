@@ -12,8 +12,6 @@
 		3D2C3C9A269A0719000FA367 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D2C3C99269A0719000FA367 /* GoogleService-Info.plist */; };
 		3D551E4826979292006F01FE /* PostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D551E4726979292006F01FE /* PostVC.swift */; };
 		3D551E4A26979965006F01FE /* ChooseLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D551E4926979965006F01FE /* ChooseLocationVC.swift */; };
-		3DD5180826A88EEF009DCAC9 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD5180626A88EEF009DCAC9 /* CustomCell.swift */; };
-		3DD5180926A88EEF009DCAC9 /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DD5180726A88EEF009DCAC9 /* CustomCell.xib */; };
 		3DD5180C26A8B1D5009DCAC9 /* xplorePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD5180A26A8B1D5009DCAC9 /* xplorePostCell.swift */; };
 		3DD5180D26A8B1D5009DCAC9 /* xplorePostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DD5180B26A8B1D5009DCAC9 /* xplorePostCell.xib */; };
 		3DEB366D2695F7F900F5DB34 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEB366C2695F7F900F5DB34 /* AppDelegate.swift */; };
@@ -22,8 +20,6 @@
 		3DEB36762695F7F900F5DB34 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DEB36752695F7F900F5DB34 /* Assets.xcassets */; };
 		3DEB36842695F7F900F5DB34 /* XploreNatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEB36832695F7F900F5DB34 /* XploreNatureTests.swift */; };
 		3DEB368F2695F7F900F5DB34 /* XploreNatureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEB368E2695F7F900F5DB34 /* XploreNatureUITests.swift */; };
-		3DEB36A42695F83900F5DB34 /* XploreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DEB369F2695F83900F5DB34 /* XploreTableViewCell.xib */; };
-		3DEB36A52695F83900F5DB34 /* XploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEB36A02695F83900F5DB34 /* XploreTableViewCell.swift */; };
 		3DEB36C5269605E800F5DB34 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEB36AD2695F87600F5DB34 /* User.swift */; };
 		3DEB36C6269605E800F5DB34 /* Xplore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEB36AC2695F87600F5DB34 /* Xplore.swift */; };
 		3DEB36C92696060400F5DB34 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEB36C72696060400F5DB34 /* Extentions.swift */; };
@@ -60,8 +56,6 @@
 		3D2C3C99269A0719000FA367 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3D551E4726979292006F01FE /* PostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVC.swift; sourceTree = "<group>"; };
 		3D551E4926979965006F01FE /* ChooseLocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationVC.swift; sourceTree = "<group>"; };
-		3DD5180626A88EEF009DCAC9 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
-		3DD5180726A88EEF009DCAC9 /* CustomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
 		3DD5180A26A8B1D5009DCAC9 /* xplorePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xplorePostCell.swift; sourceTree = "<group>"; };
 		3DD5180B26A8B1D5009DCAC9 /* xplorePostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = xplorePostCell.xib; sourceTree = "<group>"; };
 		3DEB36692695F7F900F5DB34 /* XploreNature.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XploreNature.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,8 +70,6 @@
 		3DEB368A2695F7F900F5DB34 /* XploreNatureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XploreNatureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DEB368E2695F7F900F5DB34 /* XploreNatureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XploreNatureUITests.swift; sourceTree = "<group>"; };
 		3DEB36902695F7F900F5DB34 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3DEB369F2695F83900F5DB34 /* XploreTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XploreTableViewCell.xib; sourceTree = "<group>"; };
-		3DEB36A02695F83900F5DB34 /* XploreTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XploreTableViewCell.swift; sourceTree = "<group>"; };
 		3DEB36AC2695F87600F5DB34 /* Xplore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Xplore.swift; sourceTree = "<group>"; };
 		3DEB36AD2695F87600F5DB34 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		3DEB36C72696060400F5DB34 /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
@@ -183,15 +175,11 @@
 				3D551E502697A5AB006F01FE /* objects */,
 				3D551E4D26979A7C006F01FE /* utils */,
 				3D551E4E26979A91006F01FE /* vc */,
-				3DEB36A02695F83900F5DB34 /* XploreTableViewCell.swift */,
-				3DEB369F2695F83900F5DB34 /* XploreTableViewCell.xib */,
 				3DEB366C2695F7F900F5DB34 /* AppDelegate.swift */,
 				3DEB366E2695F7F900F5DB34 /* SceneDelegate.swift */,
 				3DEB36722695F7F900F5DB34 /* Main.storyboard */,
 				3DEB36752695F7F900F5DB34 /* Assets.xcassets */,
 				3DEB367A2695F7F900F5DB34 /* Info.plist */,
-				3DD5180626A88EEF009DCAC9 /* CustomCell.swift */,
-				3DD5180726A88EEF009DCAC9 /* CustomCell.xib */,
 				3DD5180A26A8B1D5009DCAC9 /* xplorePostCell.swift */,
 				3DD5180B26A8B1D5009DCAC9 /* xplorePostCell.xib */,
 			);
@@ -330,8 +318,6 @@
 			files = (
 				3DEB36762695F7F900F5DB34 /* Assets.xcassets in Resources */,
 				3D2C3C9A269A0719000FA367 /* GoogleService-Info.plist in Resources */,
-				3DEB36A42695F83900F5DB34 /* XploreTableViewCell.xib in Resources */,
-				3DD5180926A88EEF009DCAC9 /* CustomCell.xib in Resources */,
 				3DEB36742695F7F900F5DB34 /* Main.storyboard in Resources */,
 				3DD5180D26A8B1D5009DCAC9 /* xplorePostCell.xib in Resources */,
 			);
@@ -362,10 +348,8 @@
 				3DEB36C92696060400F5DB34 /* Extentions.swift in Sources */,
 				3D170516269838F00014131F /* MyFirebaseServices.swift in Sources */,
 				3D551E4A26979965006F01FE /* ChooseLocationVC.swift in Sources */,
-				3DEB36A52695F83900F5DB34 /* XploreTableViewCell.swift in Sources */,
 				3DEB366D2695F7F900F5DB34 /* AppDelegate.swift in Sources */,
 				3DEB36CE2696061300F5DB34 /* customUITextField.swift in Sources */,
-				3DD5180826A88EEF009DCAC9 /* CustomCell.swift in Sources */,
 				3DEB36C5269605E800F5DB34 /* User.swift in Sources */,
 				3D551E4826979292006F01FE /* PostVC.swift in Sources */,
 				3DEB36CD2696061300F5DB34 /* CustomButton.swift in Sources */,

@@ -6,13 +6,7 @@
 //
 
 import Foundation
-//
-//  MainViewController.swift
-//  Xplore nature
-//
-//  Created by user196210 on 6/23/21.
-//
-
+import MapKit
 import UIKit
 import CoreLocation
 class MainVC: UIViewController {
@@ -20,13 +14,19 @@ class MainVC: UIViewController {
     @IBOutlet weak var main_SC_type: UISegmentedControl!
     @IBOutlet weak var main_TV_xplorePosts: UITableView!
     
+    var postImages: [UIImageView] = []
     var data: [Xplore] = []
     var user = User()
     var locationManager: CLLocationManager = CLLocationManager()
     let firebase = MyFirebaseServies()
+    let preference = myPreference()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        main_TV_xplorePosts.rowHeight = UITableView.automaticDimension
+        //in case that user chose post location and didn't poste the Xplore -> clears post data from memory
+        self.preference.removePostLocationFromPreference()
+        preference.removePostImageFromPreference()
+
         self.firebase.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled() {
@@ -43,6 +43,7 @@ class MainVC: UIViewController {
     
     func initXploreListView() {
         self.firebase.loadAllXploresFromFirebase()   // load all xplores from firebase
+        
         //for _ in 0...3 {
         //    let xplore = Xplore(name: "Title", type: 0, img: "xplore.png"
         //                       , desc: "description", ArrivalInstructions: "Arrival description", lat: 0, lon: 0)
@@ -115,6 +116,10 @@ class MainVC: UIViewController {
         }
         present(vc, animated: true, completion: nil)
     }
+    
+    func textView(_ textView: UITextView, replacementText text: String) {
+
+    }
 }
 
 extension MainVC: UITableViewDataSource {
@@ -125,34 +130,22 @@ extension MainVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print("UPDATING TABLEVIEW...,Index path = \(indexPath)")
-//        if let cell = main_TV_xplorePosts.dequeueReusableCell(withIdentifier: "xplorePostsCell", for: indexPath) as? XploreTableViewCell
-//        {
-//            cell.actionDelegate = self
-//            cell.cell_LBL_name.text = "Posted by: \(self.data[indexPath.row].name)"
-//            print(cell.cell_LBL_name.text)
-//            cell.cell_LBL_type.text = "Type: \(String(describing: self.data[indexPath.row].getXploreType()))"
-//            print(cell.cell_LBL_type.text)
-//            cell.cell_LBL_date.text = "\(self.data[indexPath.row].date)"
-//            print(cell.cell_LBL_date.text)
-//            cell.cell_LBL_img.downloaded(from: self.data[indexPath.row].img)
-//            cell.cell_LBL_description.text = "Description: \(self.data[indexPath.row].desc)"
-//            cell.cell_LBL_arrivalInstructions.text = "arrivalInstructions: \(self.data[indexPath.row].ArrivalInstructions)"
-//            print(cell)
-//            return cell
-//        } else {
-//            print("nil cell")
-//            return UITableViewCell()
-//        }
         let cell = main_TV_xplorePosts.dequeueReusableCell(withIdentifier: "xplorePostCell", for: indexPath) as! xplorePostCell
+        //Init cell UI configuration:
+        
+        
+        // this will turn on `masksToBounds` just before showing the cell
+        cell.lat = self.data[indexPath.row].lat
+        cell.lon = self.data[indexPath.row].lon
         cell.cell_LBL_name.text = "Posted by: \(self.data[indexPath.row].name)"
         cell.cell_LBL_type.text = "Type: \(String(describing: self.data[indexPath.row].getXploreType()))"
         cell.cell_LBL_date.text = "\(self.data[indexPath.row].date)"
-        cell.cell_IMG.downloaded(from: self.data[indexPath.row].img)
+        //cell.cell_IMG.downloaded(from: self.data[indexPath.row].img)
+        self.firebase.downloadImage(strUrl: self.data[indexPath.row].img, ImageView: cell.cell_IMG)
         cell.actionDelegate = self
-        cell.cell_LBL_description.text = "Description: \(self.data[indexPath.row].desc)"
+        cell.cell_LBL_description.text = "Description: ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd. \(self.data[indexPath.row].desc)"
         cell.cell_LBL_arrivalInstructions.text = "arrivalInstructions: \(self.data[indexPath.row].ArrivalInstructions)"
         return cell
-        
     }
 }
 
@@ -179,20 +172,28 @@ extension MainVC: CLLocationManagerDelegate {
 }
 
 extension MainVC: CellActionDelegate{
-    func cellBtnTapped() {
-        guard let vc = storyboard?.instantiateViewController(identifier: "XploreVC") as? XploreVC else {
-            print("failed to get vc from storyboard")
-            return
-        }
-        present(vc, animated: true, completion: nil)
-    }  
+    func navigateDest(lat: Double, lon: Double) {
+        let coordinate = CLLocationCoordinate2DMake(lat,lon)
+        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary:nil))
+        mapItem.name = "Target location"
+        mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])    }
 }
 
-extension MainVC: MyFireBaseDelegate {    
+extension MainVC: MyFireBaseDelegate {
+    func uploadImageFinished() {
+        self.initXploreListView()
+    }
+    
+    func downloadImageFinished(strUrl: String, ImageView: UIImageView) {
+        DispatchQueue.main.async{
+            ImageView.downloaded(from: strUrl)
+        }
+    }
+    
     func dataIsReady(xplores: [Xplore]) {
         self.data = xplores
         print("DATA: \(String(describing: self.data))")
-        //self.data = self.data.sorted(by: {$0.calcDistance(user: user, xplore: $0) > $1.calcDistance(user: user, xplore: $1)}) // Sort data by distance from user
+        self.data = self.data.sorted(by: {$0.calcDistance(user: user, xplore: $0) > $1.calcDistance(user: user, xplore: $1)}) // Sort data by distance from user
         self.displayData(data: self.data, user: self.user)
     }
 }

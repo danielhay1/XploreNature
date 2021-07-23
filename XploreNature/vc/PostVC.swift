@@ -27,7 +27,6 @@ class PostVC: UIViewController, UINavigationControllerDelegate {
         super.viewDidLoad()
         self.loadPostLocation()
         self.loadPostImage()
-        
     }
     
     func loadPostLocation() {
@@ -58,9 +57,9 @@ class PostVC: UIViewController, UINavigationControllerDelegate {
                 strImg = "\(String(describing: self.imgUrl!))"
                 let xplore = Xplore(name: name, type: self.xplore_type.rawValue, img: strImg, desc: description, ArrivalInstructions: arrivalInstructions, lat: lat, lon: lon)            // Create Xplore object
                 if let url = self.imgUrl {
-                    firebase.uploadImage(localFile: url)
+                    firebase.uploadImage(localFile: url, xplore: xplore)
                 }
-                firebase.saveXploreToFirebase(xplore: xplore)   // Convert object to json and save it to firebase
+                //firebase.saveXploreToFirebase(xplore: xplore)   // Convert object to json and save it to firebase
                 preference.removePostImageFromPreference()
                 preference.removePostLocationFromPreference()
                 switchToMainVC()

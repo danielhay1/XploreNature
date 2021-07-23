@@ -12,6 +12,8 @@ import UIKit
 
 protocol MyFireBaseDelegate {
     func dataIsReady(xplores: [Xplore])
+    func downloadImageFinished(strUrl: String,ImageView: UIImageView)
+    func uploadImageFinished()
 }
 
 class MyFirebaseServies {
@@ -30,26 +32,8 @@ class MyFirebaseServies {
         //print("ENCODE VALUE: \(preference.encodeXplore(xplore: xplore))")
         
         let jsonXplore = preference.convertToDictionary(json: preference.encodeXplore(xplore: xplore))
-        let key = "\(preference.XPLORE_KEY_PREFIX)\(xplore.id)"
+        let key = "\(preference.XPLORE_KEY_PREFIX)\(xplore.id)_\(xplore.date)"
         self.ref.child(XPOLRE_TITLE).child(key).setValue(jsonXplore)
-    }
-    
-    func loadXploreFromFirebase(xploreKey: String)->Xplore? {
-        //BUG!
-        var xplore: Xplore?
-        //let key = "\(preference.XPLORE_KEY_PREFIX)\(xploreId)"
-        self.ref.child(XPOLRE_TITLE).child(xploreKey).observeSingleEvent(of: .value, with: { snapshot in
-            // Get user value
-            
-            guard let value = snapshot.value as? String else {
-                
-                return
-            }
-            print("snapshot value: \(value)")
-            xplore = self.preference.decodeXplore(jsonXplore: value)
-
-        })
-        return xplore
     }
     
     func loadAllXploresFromFirebase() {
@@ -66,16 +50,12 @@ class MyFirebaseServies {
                 if let xplore = self.preference.dictionaryToXplore(dictXplore: val) {
                     print("\t\(key) : \(xplore.description)")
                     xplores.append(xplore)
-                    self.downloadImage(strUrl: xplore.img)
+                    //self.downloadImage(strUrl: xplore.img)
                 }
             }
             print("}")
             self.delegate?.dataIsReady(xplores: xplores)
         })
-    }
-    
-    func name(xploreList: [Xplore],type: Int) {
-        
     }
     
     func deleteXploreFromFirebase(xploreId: Int)->Bool {
@@ -91,47 +71,52 @@ class MyFirebaseServies {
     }
     
     // MARK: Firebase storage services
-    func uploadImage(localFile: URL) {
+    func uploadImage(localFile: URL, xplore: Xplore) {
+        print("UPLOADING IMAGE...")
         let imagesRef = storageRef.child("images").child(localFile.lastPathComponent)
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
         let uploadTask = imagesRef.putFile(from: localFile, metadata: metadata)
         uploadTask.observe(.success) { snapshot in
             // Upload completed successfully
-            print("Image Uploadeded Sucessfully")
+            print("Uplodad: Image Uploadeded Sucessfully")
+            self.saveXploreToFirebase(xplore: xplore)
+            self.delegate?.uploadImageFinished()
         }
         // FAILURE
         uploadTask.observe(.failure) { snapshot in
             if let error = snapshot.error as NSError? {
                 switch (StorageErrorCode(rawValue: error.code)!) {
                 case .objectNotFound:
-                    print("File doesn't exist")
+                    print("Uplodad: File doesn't exist")
                     break
                 case .unauthorized:
-                    print("User doesn't have permission to access file")
+                    print("Uplodad: User doesn't have permission to access file")
                     break
                 case .cancelled:
-                    print("User canceled the upload")
+                    print("Uplodad: User canceled the upload")
                     break
                 case .unknown:
-                    print("Unknown error occurred, inspect the server response")
+                    print("Uplodad: Unknown error occurred, inspect the server response")
                     break
                 default:
-                    print("A separate error occurred. This is a good place to retry the upload.")
+                    print("Uplodad: A separate error occurred. This is a good place to retry the upload.")
                     break
                 }
             }
         }
     }
     
-    func downloadImage(strUrl: String) {
+    func downloadImage(strUrl: String, ImageView: UIImageView) {
         if let localURL = URL(string: strUrl) {
+            print("Downloading Image...\nImageName:\(localURL.lastPathComponent)")
             let fileName = localURL.lastPathComponent
             let imagesRef = storageRef.child("images").child(fileName)
             let downloadTask = imagesRef.write(toFile: localURL)
             downloadTask.observe(.success) { snapshot in
                 // Download completed successfully
                 print("Image Downloaded Successfully")
+                self.delegate?.downloadImageFinished(strUrl: strUrl, ImageView: ImageView)
             }
             // Errors only occur in the "Failure" case
             downloadTask.observe(.failure) { snapshot in

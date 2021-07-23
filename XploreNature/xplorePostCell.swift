@@ -6,7 +6,9 @@
 //
 
 import UIKit
-
+protocol CellActionDelegate {
+    func navigateDest(lat: Double,lon: Double)
+}
 class xplorePostCell: UITableViewCell {
 
     var actionDelegate : CellActionDelegate?
@@ -16,10 +18,12 @@ class xplorePostCell: UITableViewCell {
     @IBOutlet weak var cell_IMG: UIImageView!
     @IBOutlet weak var cell_LBL_description: UILabel!
     @IBOutlet weak var cell_LBL_arrivalInstructions: UILabel!
-    
+    var lat : Double?
+    var lon : Double?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -28,9 +32,13 @@ class xplorePostCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    
     @IBAction func viewXplore(_ sender: Any) {
         if let delegate = self.actionDelegate {
-            delegate.cellBtnTapped()
-        }     
+            if((self.lat != nil)&&(self.lon != nil)) {
+                print("OPENING MAPS NAVIGATION TO DESTINATION...")
+                delegate.navigateDest(lat: self.lat!,lon: self.lon!)
+            }
+        }
     }
 }
