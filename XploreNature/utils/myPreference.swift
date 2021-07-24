@@ -12,42 +12,44 @@ class myPreference {
     private let POST_LOCATION_LATITUDE = "post_location_latitude"
     private let POST_LOCATION_LONGITUDE = "post_location_longitude"
     private let POST_IMAGE = "post_image"
+    private var POST_DETAILS = "post_details"
+    
+    
+    // MARK: post details functions:
+    func savePostDetails(name: String,type: Int, desc: String, arrivalInstructions: String, img: String?, lat:Double?, lon:Double?) {
+        var post_details = loadPostDetails() ?? [String:Any]()
+        post_details["place_name"] = name
+        post_details["type"] = type
+        post_details["desc"] = desc
+        post_details["arrivalInstructions"] = arrivalInstructions
+        if(img != nil) {
+            post_details["img"] = img
+        }
+        if(lat != nil) {
+            post_details["lat"] = lat
+        }
+        if(lon != nil) {
+            post_details["lon"] = lon
+        }
+        UserDefaults.standard.setValue(post_details, forKey: POST_DETAILS)
+    }
+    
+    func loadPostDetails() -> [String: Any]? {
+        return (UserDefaults.standard.object(forKey: POST_DETAILS) as? [String:Any])
+    }
+    
+    func RemovePostDetails() {
+        UserDefaults.standard.removeObject(forKey: POST_DETAILS)
+    }
     
     // MARK: Post location fucntions:
     func savePostLocationToPreference(lat: Double, lon: Double) {
-        UserDefaults.standard.setValue(lat, forKey: POST_LOCATION_LATITUDE)
-        UserDefaults.standard.setValue(lon, forKey: POST_LOCATION_LONGITUDE)
+        var post_details = loadPostDetails() ?? [String:Any]()
+        post_details["lat"] = lat
+        post_details["lon"] = lon
+        UserDefaults.standard.setValue(post_details, forKey: POST_DETAILS)
     }
     
-    func loadPostLocationFromPreference()-> (Double?, Double?) {
-        let lat = UserDefaults.standard.double(forKey: POST_LOCATION_LATITUDE)
-        let lon = UserDefaults.standard.double(forKey: POST_LOCATION_LONGITUDE)
-        if(lat != 0.0) || (lon != 0.0) {
-            return (lat,lon)
-        }
-        return (nil,nil)
-    }
-
-    func removePostLocationFromPreference() {
-        UserDefaults.standard.removeObject(forKey: POST_LOCATION_LATITUDE)
-        UserDefaults.standard.removeObject(forKey: POST_LOCATION_LONGITUDE)
-    }
-    // MARK: Post image fucntions:
-    func savePostImageToPreference(img: String) {
-        UserDefaults.standard.setValue(img, forKey: POST_IMAGE)
-    }
-    
-    func loadPostImageFromPreference()-> String? {
-        if let img = UserDefaults.standard.string(forKey: POST_IMAGE) {
-            return img
-        } else {
-            return nil
-        }
-    }
-    
-    func removePostImageFromPreference() {
-        UserDefaults.standard.removeObject(forKey: POST_IMAGE)
-    }
     // MARK: Encode functions
     func encodeUser(user: User) -> String{
         let encoder = JSONEncoder()

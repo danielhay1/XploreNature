@@ -30,13 +30,13 @@ class MyFirebaseServies {
     // MARK: Firebase database services
     func saveXploreToFirebase(xplore: Xplore) {
         //print("ENCODE VALUE: \(preference.encodeXplore(xplore: xplore))")
-        
         let jsonXplore = preference.convertToDictionary(json: preference.encodeXplore(xplore: xplore))
         let key = "\(preference.XPLORE_KEY_PREFIX)\(xplore.id)_\(xplore.date)"
         self.ref.child(XPOLRE_TITLE).child(key).setValue(jsonXplore)
     }
     
     func loadAllXploresFromFirebase() {
+        xplore_counter = 0
         print("loadAllXploresFromFirebase:")
         var xplores : [Xplore] = []
         let parentRef = ref.child(XPOLRE_TITLE)
@@ -50,12 +50,35 @@ class MyFirebaseServies {
                 if let xplore = self.preference.dictionaryToXplore(dictXplore: val) {
                     print("\t\(key) : \(xplore.description)")
                     xplores.append(xplore)
-                    //self.downloadImage(strUrl: xplore.img)
                 }
             }
             print("}")
             self.delegate?.dataIsReady(xplores: xplores)
         })
+    }
+    
+    func listenDatabase() {
+        let parentRef = ref.child(XPOLRE_TITLE)
+        xplore_counter = 0
+        print("listenDatabase:")
+        var xplores : [Xplore] = []
+        parentRef.observe(.childAdded, with: { snapshot in
+            guard let value = snapshot.value as? [String: [String:Any]] else {
+                return
+            }
+            print  ("SNAPSHOT = \(value)")
+            print("{")
+            // DATA WAS FOUND
+            for (key, val) in value {
+                if let xplore = self.preference.dictionaryToXplore(dictXplore: val) {
+                    print("\t\(key) : \(xplore.description)")
+                    xplores.append(xplore)
+                }
+            }
+            print("}")
+            self.delegate?.dataIsReady(xplores: xplores)
+        })
+        
     }
     
     func deleteXploreFromFirebase(xploreId: Int)->Bool {

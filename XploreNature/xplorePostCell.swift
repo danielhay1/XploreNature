@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 protocol CellActionDelegate {
     func navigateDest(lat: Double,lon: Double)
 }
@@ -18,6 +19,7 @@ class xplorePostCell: UITableViewCell {
     @IBOutlet weak var cell_IMG: UIImageView!
     @IBOutlet weak var cell_LBL_description: UILabel!
     @IBOutlet weak var cell_LBL_arrivalInstructions: UILabel!
+    var locationManager: CLLocationManager = CLLocationManager()
     var lat : Double?
     var lon : Double?
     override func awakeFromNib() {

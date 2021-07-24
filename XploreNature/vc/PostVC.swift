@@ -25,25 +25,55 @@ class PostVC: UIViewController, UINavigationControllerDelegate {
     var imgUrl: URL?
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.loadPostLocation()
-        self.loadPostImage()
+        self.localLoadPostDetails()
+        
     }
     
-    func loadPostLocation() {
-        self.lat = preference.loadPostLocationFromPreference().0
-        self.lon = preference.loadPostLocationFromPreference().1
-        if (lat != nil) && (lon != nil) {
-            print("location: \(String(describing: lat)),\(String(describing: lon))")
-        }
+    func localSavePostDetails() {
+        print("Local save post details")
+            preference.savePostDetails(name: post_TF_name.text ?? "", type: xplore_type.rawValue, desc: post_TF_description.text ?? "", arrivalInstructions: post_TF_arrivalInstructions.text ?? "", img: imgUrl?.absoluteString, lat: lat, lon: lon)
     }
     
-    func loadPostImage() {
-        if(self.imgUrl == nil) {
-            if let strImgUrl = preference.loadPostImageFromPreference() {
-                self.imgUrl = URL(string: strImgUrl)
+    func localLoadPostDetails() {
+        if let post_details = preference.loadPostDetails() {
+            print("Local load post details")
+            self.post_TF_name.text = post_details["place_name"] as? String
+            self.setXploreTypeValue(value: post_details["type"] as! Int)
+            self.post_SC_type.selectedSegmentIndex = self.xplore_type.rawValue
+            self.post_TF_description.text = post_details["desc"] as? String
+            self.post_TF_arrivalInstructions.text = post_details["arrivalInstructions"] as? String
+            if let latlng = post_details["lat"] {
+                self.lat = latlng as? Double
+            }
+            if let latlong = post_details["lon"] {
+                self.lon = latlong as? Double
+            }
+            if let strImgUrl = post_details["img"] {
+                self.imgUrl = URL(string: strImgUrl as! String)
                 self.post_IMG_xploreImg.downloaded(from: imgUrl!)
             }
         }
+        
+    }
+    
+    func alertDialog(title: String, msg: String) {
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            switch action.style{
+                case .default:
+                print("default")
+                
+                case .cancel:
+                print("cancel")
+                
+                case .destructive:
+                print("destructive")
+                
+            default:
+                fatalError()
+            }
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func submitPost(_ sender: Any) {
@@ -59,18 +89,20 @@ class PostVC: UIViewController, UINavigationControllerDelegate {
                 if let url = self.imgUrl {
                     firebase.uploadImage(localFile: url, xplore: xplore)
                 }
-                //firebase.saveXploreToFirebase(xplore: xplore)   // Convert object to json and save it to firebase
-                preference.removePostImageFromPreference()
-                preference.removePostLocationFromPreference()
+                preference.RemovePostDetails()
                 switchToMainVC()
             } else {
                 print("No location insterted!")
+                alertDialog(title: "Field is missing", msg: "No location insterted!")
+                
             }
         } else {
             print("No image insterted!")
+            alertDialog(title: "Field is missing", msg: "No Image insterted!")
         }
     }
     
+
     func switchToMainVC() {
         // Open new viewController
         guard let vc = storyboard?.instantiateViewController(identifier: "Main") as? MainVC else {
@@ -89,8 +121,8 @@ class PostVC: UIViewController, UINavigationControllerDelegate {
         present(vc, animated: true, completion: nil)
     }
     
-    @IBAction func selectXploreType(_ sender: Any) {
-        switch post_SC_type.selectedSegmentIndex {
+    func setXploreTypeValue(value: Int) {
+        switch value {
         case 0:
             self.xplore_type = XPLORE_TYPE.nature_trip.self
         case 1:
@@ -103,6 +135,9 @@ class PostVC: UIViewController, UINavigationControllerDelegate {
             self.xplore_type = XPLORE_TYPE.nature_trip.self
             break;
         }
+    }
+    @IBAction func selectXploreType(_ sender: Any) {
+        setXploreTypeValue(value: post_SC_type.selectedSegmentIndex)
     }
     
     @IBAction func addImg(_ sender: Any) {
@@ -120,7 +155,8 @@ class PostVC: UIViewController, UINavigationControllerDelegate {
     }
     
     @IBAction func locationBtnClick(_ sender: Any) {
-        switchToChooseLocationVc()
+        self.localSavePostDetails()
+        self.switchToChooseLocationVc()
     }
 }
 
@@ -130,7 +166,8 @@ extension PostVC: UIImagePickerControllerDelegate {
         if let url = info[UIImagePickerController.InfoKey.imageURL] as? URL{
             print("Local url:\(url)")
             self.imgUrl = url
-            self.preference.savePostImageToPreference(img: url.absoluteString)
+            //self.preference.savePostImageToPreference(img: url.absoluteString)
+            self.localSavePostDetails()
             self.post_IMG_xploreImg.downloaded(from: url)
         }
         picker.dismiss(animated: true,completion: nil)

@@ -8,7 +8,7 @@
 import Foundation
 import CoreLocation
 
-var xplore_counter = 0
+public var xplore_counter = 0
 public enum XPLORE_TYPE : Int {
     case nature_trip,park,wellspring,observation
 }
@@ -27,7 +27,6 @@ class Xplore : Codable{
     init() {
         self.id = xplore_counter
         self.date = Date().getTodayString()
-        xplore_counter += 1
     }
     
     init(name: String?, type: Int?, img: String?, desc: String? , ArrivalInstructions: String?, lat: Double?, lon: Double?) {
@@ -39,7 +38,6 @@ class Xplore : Codable{
         self.desc = desc ?? "NA"
         self.ArrivalInstructions = ArrivalInstructions ?? "NA"
         self.setLocation(lat: lat,lon: lon)
-        xplore_counter += 1
     }
     
     func getXploreType() -> XPLORE_TYPE {

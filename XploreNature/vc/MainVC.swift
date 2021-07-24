@@ -16,17 +16,15 @@ class MainVC: UIViewController {
     
     var postImages: [UIImageView] = []
     var data: [Xplore] = []
+    var filteredData: [Xplore] = []
     var user = User()
     var locationManager: CLLocationManager = CLLocationManager()
     let firebase = MyFirebaseServies()
     let preference = myPreference()
     override func viewDidLoad() {
         super.viewDidLoad()
-        main_TV_xplorePosts.rowHeight = UITableView.automaticDimension
         //in case that user chose post location and didn't poste the Xplore -> clears post data from memory
-        self.preference.removePostLocationFromPreference()
-        preference.removePostImageFromPreference()
-
+        self.preference.RemovePostDetails()
         self.firebase.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled() {
@@ -42,20 +40,12 @@ class MainVC: UIViewController {
     }
     
     func initXploreListView() {
-        self.firebase.loadAllXploresFromFirebase()   // load all xplores from firebase
-        
+        self.firebase.loadAllXploresFromFirebase() // load all xplores from firebase
         //for _ in 0...3 {
         //    let xplore = Xplore(name: "Title", type: 0, img: "xplore.png"
         //                       , desc: "description", ArrivalInstructions: "Arrival description", lat: 0, lon: 0)
         //    xploreList.append(xplore)
         //}
-    }
-    
-    func setUserLocation() {
-        print("REQUESTING PLAYER LOCATION...")
-        locationManager.requestLocation()
-        locationManager.requestWhenInUseAuthorization()
-        
     }
     
     func saveUser() {
@@ -65,6 +55,7 @@ class MainVC: UIViewController {
     }
     
     func filterData(type: Int, data: [Xplore])->[Xplore] {
+        print("Selected type:\(type)")
         if(type == -1){
             return data
         } else {
@@ -78,7 +69,7 @@ class MainVC: UIViewController {
         }
     }
     
-    func displayData(data: [Xplore],user: User) {
+    func displayData() {
         //update tablview data
         self.main_TV_xplorePosts.dataSource = self
         self.main_TV_xplorePosts.register(UINib(nibName: "xplorePostCell", bundle: nil), forCellReuseIdentifier: "xplorePostCell")
@@ -86,7 +77,6 @@ class MainVC: UIViewController {
             self.main_TV_xplorePosts.reloadData()
         }
     }
-    
     
     @IBAction func selectXploreTypePosts(_ sender: Any) {
         var type = -1
@@ -105,8 +95,8 @@ class MainVC: UIViewController {
             type = -1
             break;
         }
-        let filteredData = filterData(type: type, data: self.data)
-        displayData(data: filteredData, user: user)
+        self.filteredData = filterData(type: type, data: self.data)
+        displayData()
     }
     @IBAction func postXplore(_ sender: Any) {
         // Open new viewController
@@ -116,16 +106,12 @@ class MainVC: UIViewController {
         }
         present(vc, animated: true, completion: nil)
     }
-    
-    func textView(_ textView: UITextView, replacementText text: String) {
-
-    }
 }
 
 extension MainVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(self.data.count)
-        return self.data.count
+        print(self.filteredData.count)
+        return self.filteredData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -137,14 +123,14 @@ extension MainVC: UITableViewDataSource {
         // this will turn on `masksToBounds` just before showing the cell
         cell.lat = self.data[indexPath.row].lat
         cell.lon = self.data[indexPath.row].lon
-        cell.cell_LBL_name.text = "Posted by: \(self.data[indexPath.row].name)"
+        cell.cell_LBL_name.text = "Place Name: \(self.data[indexPath.row].name)"
         cell.cell_LBL_type.text = "Type: \(String(describing: self.data[indexPath.row].getXploreType()))"
         cell.cell_LBL_date.text = "\(self.data[indexPath.row].date)"
         //cell.cell_IMG.downloaded(from: self.data[indexPath.row].img)
         self.firebase.downloadImage(strUrl: self.data[indexPath.row].img, ImageView: cell.cell_IMG)
         cell.actionDelegate = self
-        cell.cell_LBL_description.text = "Description: ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd. \(self.data[indexPath.row].desc)"
-        cell.cell_LBL_arrivalInstructions.text = "arrivalInstructions: \(self.data[indexPath.row].ArrivalInstructions)"
+        cell.cell_LBL_description.text = "Description:\n ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd. \(self.data[indexPath.row].desc)"
+        cell.cell_LBL_arrivalInstructions.text = "arrivalInstructions:\n\(self.data[indexPath.row].ArrivalInstructions)"
         return cell
     }
 }
@@ -181,6 +167,7 @@ extension MainVC: CellActionDelegate{
 
 extension MainVC: MyFireBaseDelegate {
     func uploadImageFinished() {
+        print("mainVc recived upload finish signal")
         self.initXploreListView()
     }
     
@@ -192,8 +179,11 @@ extension MainVC: MyFireBaseDelegate {
     
     func dataIsReady(xplores: [Xplore]) {
         self.data = xplores
+        xplore_counter = xplores.count
         print("DATA: \(String(describing: self.data))")
-        self.data = self.data.sorted(by: {$0.calcDistance(user: user, xplore: $0) > $1.calcDistance(user: user, xplore: $1)}) // Sort data by distance from user
-        self.displayData(data: self.data, user: self.user)
+        self.data = self.data.sorted(by: {$0.calcDistance(user: user, xplore: $0) < $1.calcDistance(user: user, xplore: $1)}) // Sort data by distance from user
+        self.filteredData = self.data
+        self.displayData()
+        print("xplore_counter = \(xplore_counter)")
     }
 }

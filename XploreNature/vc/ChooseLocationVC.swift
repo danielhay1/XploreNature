@@ -12,6 +12,8 @@ import MapKit
 class ChooseLocationVC: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     var locationManager = CLLocationManager()
+    var userLat: Double?
+    var userLon: Double?
     var marker: MKPointAnnotation?
     let preference = myPreference()
     override func viewDidLoad() {
@@ -21,7 +23,17 @@ class ChooseLocationVC: UIViewController {
                                       target: self, action:#selector(handleTap))
             gestureRecognizer.delegate = self
             mapView.addGestureRecognizer(gestureRecognizer)
-        // Do any additional setup after loading the view.
+        self.initializeTheLocationManager()
+        //Zoom to user location
+        
+        //mapView.setRegion(viewRegion, animated: false)
+        mapView.showsUserLocation = true
+    }
+    
+    func getCurrentLoaction() {
+        let locationManager = CLLocationManager()
+           locationManager.delegate = self
+           locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
     @IBAction func submitLocation(_ sender: Any) {
@@ -40,9 +52,10 @@ class ChooseLocationVC: UIViewController {
     }
     
     func initializeTheLocationManager() {
-        locationManager.delegate = self
-        locationManager.requestLocation()
-        locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.requestLocation()
+        }
     }
 
 }
@@ -56,7 +69,7 @@ extension ChooseLocationVC: CLLocationManagerDelegate {
         if let lastLocation = locations.last {
             locationManager.stopUpdatingLocation()
             let center = CLLocationCoordinate2D(latitude: lastLocation.coordinate.latitude, longitude: lastLocation.coordinate.longitude)
-            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.4, longitudeDelta: 0.4))
             self.mapView.setRegion(region, animated: true)
             print("My location:[\(lastLocation.coordinate.latitude),\(lastLocation.coordinate.longitude)]")
         }
@@ -90,3 +103,4 @@ extension ChooseLocationVC: UIGestureRecognizerDelegate {
         print("new marker at:[\(coordinate.latitude),\(coordinate.longitude)]")
     }
 }
+
