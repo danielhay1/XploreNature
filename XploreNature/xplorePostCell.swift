@@ -9,6 +9,7 @@ import UIKit
 import CoreLocation
 protocol CellActionDelegate {
     func navigateDest(lat: Double,lon: Double)
+    func googleIt(search: String)
 }
 class xplorePostCell: UITableViewCell {
 
@@ -35,12 +36,15 @@ class xplorePostCell: UITableViewCell {
     }
     
     
-    @IBAction func viewXplore(_ sender: Any) {
+    @IBAction func navigateXplore(_ sender: Any) {
         if let delegate = self.actionDelegate {
             if((self.lat != nil)&&(self.lon != nil)) {
                 print("OPENING MAPS NAVIGATION TO DESTINATION...")
                 delegate.navigateDest(lat: self.lat!,lon: self.lon!)
             }
         }
+    }
+    @IBAction func googleBtnPress(_ sender: Any) {
+        self.actionDelegate?.googleIt(search: self.cell_LBL_name.text ?? "")
     }
 }

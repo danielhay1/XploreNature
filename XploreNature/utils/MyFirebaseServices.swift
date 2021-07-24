@@ -11,9 +11,8 @@ import FirebaseStorage
 import UIKit
 
 protocol MyFireBaseDelegate {
-    func dataIsReady(xplores: [Xplore])
+    func dataIsReady(xplore: Xplore)
     func downloadImageFinished(strUrl: String,ImageView: UIImageView)
-    func uploadImageFinished()
 }
 
 class MyFirebaseServies {
@@ -35,17 +34,18 @@ class MyFirebaseServies {
         self.ref.child(XPOLRE_TITLE).child(key).setValue(jsonXplore)
     }
     
-    func loadAllXploresFromFirebase() {
-        xplore_counter = 0
-        print("loadAllXploresFromFirebase:")
-        var xplores : [Xplore] = []
+    func readDatabase() {
         let parentRef = ref.child(XPOLRE_TITLE)
-        parentRef.observeSingleEvent(of: .value, with: { snapshot in
+        xplore_counter = 0
+        print("listenDatabase:")
+        var xplores : [Xplore] = []
+        parentRef.observeSingleEvent(of:.value, with: { snapshot in
             guard let value = snapshot.value as? [String: [String:Any]] else {
                 return
             }
             print("{")
             // DATA WAS FOUND
+            print(value.count)
             for (key, val) in value {
                 if let xplore = self.preference.dictionaryToXplore(dictXplore: val) {
                     print("\t\(key) : \(xplore.description)")
@@ -53,30 +53,24 @@ class MyFirebaseServies {
                 }
             }
             print("}")
-            self.delegate?.dataIsReady(xplores: xplores)
+            //self.delegate?.dataIsReady(xplores: xplores)
         })
+        
     }
     
     func listenDatabase() {
         let parentRef = ref.child(XPOLRE_TITLE)
         xplore_counter = 0
         print("listenDatabase:")
-        var xplores : [Xplore] = []
-        parentRef.observe(.childAdded, with: { snapshot in
-            guard let value = snapshot.value as? [String: [String:Any]] else {
-                return
-            }
-            print  ("SNAPSHOT = \(value)")
-            print("{")
-            // DATA WAS FOUND
-            for (key, val) in value {
-                if let xplore = self.preference.dictionaryToXplore(dictXplore: val) {
-                    print("\t\(key) : \(xplore.description)")
-                    xplores.append(xplore)
+        parentRef.observe( .childAdded, with: { snapshot in
+            if let value = snapshot.value {
+                let key = snapshot.key
+                if let xplore = self.preference.dictionaryToXplore(dictXplore: value as? [String : Any]) {
+                    print("***\t\(key) : \(xplore.description)")
+                    self.delegate?.dataIsReady(xplore: xplore)
+
                 }
             }
-            print("}")
-            self.delegate?.dataIsReady(xplores: xplores)
         })
         
     }
@@ -104,7 +98,6 @@ class MyFirebaseServies {
             // Upload completed successfully
             print("Uplodad: Image Uploadeded Sucessfully")
             self.saveXploreToFirebase(xplore: xplore)
-            self.delegate?.uploadImageFinished()
         }
         // FAILURE
         uploadTask.observe(.failure) { snapshot in

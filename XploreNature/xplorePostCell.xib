@@ -75,16 +75,25 @@
                                     <constraint firstItem="BVf-JC-cTh" firstAttribute="leading" secondItem="abT-Pt-Ui1" secondAttribute="leading" id="yL2-0a-eBN"/>
                                 </constraints>
                             </scrollView>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q8f-2f-aqO">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="q8f-2f-aqO">
                                 <rect key="frame" x="0.0" y="560" width="436" height="30"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aYd-9R-4X2">
+                                        <rect key="frame" x="0.0" y="0.0" width="218" height="30"/>
+                                        <state key="normal" title="Google it">
+                                            <color key="titleColor" name="AppGreen"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="googleBtnPress:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="1wr-fr-aXY"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JP8-OH-Kqj">
-                                        <rect key="frame" x="0.0" y="0.0" width="436" height="30"/>
+                                        <rect key="frame" x="218" y="0.0" width="218" height="30"/>
                                         <state key="normal" title="Navigate">
                                             <color key="titleColor" name="AppGreen"/>
                                         </state>
                                         <connections>
-                                            <action selector="viewXplore:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="U8d-Vu-Ctm"/>
+                                            <action selector="navigateXplore:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="U8d-Vu-Ctm"/>
                                         </connections>
                                     </button>
                                 </subviews>
