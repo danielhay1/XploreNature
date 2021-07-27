@@ -149,7 +149,7 @@ extension MainVC: CLLocationManagerDelegate {
 extension MainVC: CellActionDelegate{
     func googleIt(search: String) {
         print("Searching in google...")
-        if let url = URL(string:"https://google.com") {
+        if let url = URL(string:"https://www.google.com/search?q=\(search)") {
             print("***")
             UIApplication.shared.open(url)
         }

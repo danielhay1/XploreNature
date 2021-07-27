@@ -27,22 +27,22 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x0D-ty-87I">
-                                <rect key="frame" x="0.0" y="20.5" width="436" height="21"/>
+                                <rect key="frame" x="0.0" y="20.5" width="436" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBD-z8-5sR">
-                                <rect key="frame" x="0.0" y="41.5" width="436" height="20.5"/>
+                                <rect key="frame" x="0.0" y="41" width="436" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" name="gray_text"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k6S-Wv-lHV">
-                                <rect key="frame" x="0.0" y="62" width="436" height="249"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k6S-Wv-lHV">
+                                <rect key="frame" x="0.0" y="61.5" width="436" height="246"/>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="86l-tx-aHZ">
-                                <rect key="frame" x="0.0" y="311" width="436" height="124.5"/>
+                                <rect key="frame" x="0.0" y="307.5" width="436" height="123"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="100" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qYj-3Q-yi6">
                                         <rect key="frame" x="0.0" y="0.0" width="35.5" height="17"/>
@@ -59,7 +59,7 @@
                                 </constraints>
                             </scrollView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abT-Pt-Ui1">
-                                <rect key="frame" x="0.0" y="435.5" width="436" height="124.5"/>
+                                <rect key="frame" x="0.0" y="430.5" width="436" height="123"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="xplorePostCell" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BVf-JC-cTh">
                                         <rect key="frame" x="0.0" y="0.0" width="35.5" height="17"/>
@@ -76,10 +76,10 @@
                                 </constraints>
                             </scrollView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="q8f-2f-aqO">
-                                <rect key="frame" x="0.0" y="560" width="436" height="30"/>
+                                <rect key="frame" x="0.0" y="553.5" width="436" height="36.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aYd-9R-4X2">
-                                        <rect key="frame" x="0.0" y="0.0" width="218" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="218" height="36.5"/>
                                         <state key="normal" title="Google it">
                                             <color key="titleColor" name="AppGreen"/>
                                         </state>
@@ -87,10 +87,11 @@
                                             <action selector="googleBtnPress:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="1wr-fr-aXY"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JP8-OH-Kqj">
-                                        <rect key="frame" x="218" y="0.0" width="218" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JP8-OH-Kqj">
+                                        <rect key="frame" x="218" y="0.0" width="218" height="36.5"/>
                                         <state key="normal" title="Navigate">
                                             <color key="titleColor" name="AppGreen"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                         </state>
                                         <connections>
                                             <action selector="navigateXplore:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="U8d-Vu-Ctm"/>
