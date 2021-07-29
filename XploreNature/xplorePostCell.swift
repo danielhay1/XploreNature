@@ -45,6 +45,8 @@ class xplorePostCell: UITableViewCell {
         }
     }
     @IBAction func googleBtnPress(_ sender: Any) {
-        self.actionDelegate?.googleIt(search: self.cell_LBL_name.text ?? "")
+        let prefixIndex = "Place Name: ".count
+        let text = self.cell_LBL_name.text!.substring(from: prefixIndex)
+        self.actionDelegate?.googleIt(search: text)
     }
 }

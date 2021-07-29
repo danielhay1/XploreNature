@@ -148,7 +148,7 @@ extension MainVC: CLLocationManagerDelegate {
 
 extension MainVC: CellActionDelegate{
     func googleIt(search: String) {
-        print("Searching in google...")
+        print("Searching \(search) in google...")
         if let url = URL(string:"https://www.google.com/search?q=\(search)") {
             print("***")
             UIApplication.shared.open(url)
@@ -159,7 +159,8 @@ extension MainVC: CellActionDelegate{
         let coordinate = CLLocationCoordinate2DMake(lat,lon)
         let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary:nil))
         mapItem.name = "Target location"
-        mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])    }
+        mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
+    }
 }
 
 extension MainVC: MyFireBaseDelegate {
