@@ -7,7 +7,7 @@ Posts are sorted by user location, close post will appear at the top of the post
 
 
 ## Screenshots
-<img src="https://i.ibb.co/zJmyHrD/Screenshot-2021-07-29-095952.png" alt="drawing" width="200" hspace="10" /><img src="https://i.ibb.co/zJmyHrD/Screenshot-2021-07-29-095952.png" alt="drawing" width="200" hspace="10"/><img src="https://i.ibb.co/d0r6thQ/Screenshot-2021-07-29-095636.png"  alt="drawing" width="200" hspace="10"/><img src="https://i.ibb.co/Kb0mcss/Screenshot-20210228-152110-Spark.jpg" alt="drawing" width="200" hspace="10"/><img src="https://i.ibb.co/xX5pYt4/Screenshot-2021-07-29-095927.png" alt="drawing" width="200" hspace="10"/>
+<a href="https://ibb.co/zJmyHrD"><img src="https://i.ibb.co/zJmyHrD/Screenshot-2021-07-29-095952.png" alt="Screenshot-2021-07-29-095952" border="0"></a> <a href="https://ibb.co/LYQ4dC3"><img src="https://i.ibb.co/LYQ4dC3/Screenshot-2021-07-29-100019.png" alt="Screenshot-2021-07-29-100019" border="0"></a> <a href="https://ibb.co/tDjyHNV"><img src="https://i.ibb.co/tDjyHNV/Screenshot-2021-07-29-100308.png" alt="Screenshot-2021-07-29-100308" border="0"></a> <a href="https://ibb.co/d0r6thQ"><img src="https://i.ibb.co/d0r6thQ/Screenshot-2021-07-29-095636.png" alt="Screenshot-2021-07-29-095636" border="0"></a> <a href="https://ibb.co/6BSS5gD"><img src="https://i.ibb.co/6BSS5gD/Screenshot-2021-07-29-095843.png" alt="Screenshot-2021-07-29-095843" border="0"></a> <a href="https://ibb.co/xX5pYt4"><img src="https://i.ibb.co/xX5pYt4/Screenshot-2021-07-29-095927.png" alt="Screenshot-2021-07-29-095927" border="0"></a>
 
 
 ## permissions
