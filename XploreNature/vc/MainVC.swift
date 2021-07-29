@@ -121,7 +121,7 @@ extension MainVC: UITableViewDataSource {
         self.firebase.downloadImage(strUrl: self.filteredData[indexPath.row].img, ImageView: cell.cell_IMG)
         cell.actionDelegate = self
         cell.cell_LBL_description.text = "Description:\n\(self.filteredData[indexPath.row].desc)"
-        cell.cell_LBL_arrivalInstructions.text = "arrivalInstructions:\n\(self.filteredData[indexPath.row].ArrivalInstructions)"
+        cell.cell_LBL_arrivalInstructions.text = "ArrivalInstructions:\n\(self.filteredData[indexPath.row].ArrivalInstructions)"
         return cell
     }
 }
@@ -149,7 +149,11 @@ extension MainVC: CLLocationManagerDelegate {
 extension MainVC: CellActionDelegate{
     func googleIt(search: String) {
         print("Searching \(search) in google...")
-        if let url = URL(string:"https://www.google.com/search?q=\(search)") {
+        var keyword = search
+        if(keyword.contains(" ")) {
+            keyword = keyword.replacingOccurrences(of: " ", with: "%20")
+        }
+        if let url = URL(string:"https://www.google.com/search?q=\(keyword)") {
             print("***")
             UIApplication.shared.open(url)
         }
